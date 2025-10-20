@@ -1,4 +1,4 @@
-// pre-defined
+// ## Predefined
 
 let K = 2 ** 128; 				// possible keys
 let ASIC_speed = 7 * (10 ** 8); // keys per second
@@ -6,7 +6,7 @@ let budget = 1000000;			// euros
 let ASIC_price = 80; 			// 40 * 2, due to overhead
 let universe_age = 10 ** 10;	// years
 
-// obtained
+// ## Obtained
 
 let ASIC_count = budget / ASIC_price;								// ASICs
 
@@ -22,7 +22,8 @@ console.log(`- ${ASIC_count} ASICs\n- ${search_duration} years (${relative_durat
 
 let months_passed = 0;
 
-// Moore's Law
+// ### Moore's Law
+
 for (let i = 0; i < 100; i++) {
 	let secs = search_duration_sec(ASIC_speed);
 	let hrs = secs / (60 * 60);
