@@ -11,7 +11,7 @@ let universe_age = 10 ** 10;	// years
 let ASIC_count = budget / ASIC_price;								// ASICs
 
 function search_duration_sec(speed) {
-	return K / (ASIC_count * speed);
+	return K / 2 / (ASIC_count * speed);
 }
 
 let search_duration = search_duration_sec(ASIC_speed) / (60 * 60 * 24 * 365);	// years
