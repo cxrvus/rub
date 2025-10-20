@@ -24,14 +24,7 @@ let months_passed = 0;
 
 // ### Moore's Law
 
-for (let i = 0; i < 100; i++) {
-	let secs = search_duration_sec(ASIC_speed);
-	let hrs = secs / (60 * 60);
-
-	if (hrs <= 24) {
-		break;
-	}
-
+while (search_duration_sec(ASIC_speed) / (60 * 60) > 24) {
 	months_passed += 18;
 	ASIC_speed *= 2;
 }
