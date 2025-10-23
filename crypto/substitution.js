@@ -13,9 +13,17 @@ if (!path) { console.log('please provide a path to the ciphertext'); return; }
 const fs = require('fs');
 
 let ciphertext = fs.readFileSync(path, 'utf-8');
+let chars = [...ciphertext].map(char => ({ value: char, subst: false }));
 
-letter_pairs.forEach(([cipher, plain]) =>
-	ciphertext = ciphertext.replaceAll(cipher, plain)
-);
+letter_pairs.forEach(([cipher, plain]) => {
+	chars.forEach(char => {
+		if (!char.subst && char.value == cipher) {
+			char.value = plain;
+			char.subst = true;
+		}
+	})
+});
 
-console.log(ciphertext);
+const plaintext = chars.map(char => char.value).join('');
+
+console.log(plaintext);
