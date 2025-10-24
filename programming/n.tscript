@@ -1,4 +1,3 @@
-# Er soll mit 10 Linien in Reihenfolge die folgenden Punkte anfahren:
 # (0, 50), (8, 50), (37, 10), (37, 50), (45, 50), (45, 0), (37, 0), (8, 40), (8, 0), (0, 0).
 
 move(50);
@@ -9,9 +8,9 @@ move(50);
 
 function move (dist) { turtle.move(dist); }
 function turn (deg) { turtle.turn(deg); }
-function turn_right() { turn(90); }
+function turn_right () { turn(90); }
 
-function turn_by_vec(x, y) {
+function turn_by_vec (x, y) {
 	var rad = math.atan2(x, y);
 	var deg = 180 / math.pi() * rad;
 	turn(deg);
@@ -20,4 +19,3 @@ function turn_by_vec(x, y) {
 function vec_mag(x, y) {
 	# todo: return magnitude of vector
 }
-
