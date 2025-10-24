@@ -1,14 +1,18 @@
-# (0, 50), (8, 50), (37, 10), (37, 50), (45, 50), (45, 0), (37, 0), (8, 40), (8, 0), (0, 0).
+# points: (0, 50), (8, 50), (37, 10), (37, 50), (45, 50), (45, 0), (37, 0), (8, 40), (8, 0), (0, 0).
 
 move(50);
 turn_right();
 move(8);
-turn_by_vec(50-10, 37-8);
-move(50);
+move_by_vec(50-10, 37-8);
 
 function move (dist) { turtle.move(dist); }
 function turn (deg) { turtle.turn(deg); }
 function turn_right () { turn(90); }
+
+function move_by_vec (x, y) {
+	turn_by_vec(x, y);
+	move(vec_mag(x, y));
+}
 
 function turn_by_vec (x, y) {
 	var rad = math.atan2(x, y);
@@ -16,6 +20,7 @@ function turn_by_vec (x, y) {
 	turn(deg);
 }
 
-function vec_mag(x, y) {
-	# todo: return magnitude of vector
+# magnitude of vector
+function vec_mag (x, y) {
+	return math.sqrt(x^2 + y^2);
 }
