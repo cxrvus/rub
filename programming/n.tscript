@@ -1,26 +1,58 @@
-# points: (0, 50), (8, 50), (37, 10), (37, 50), (45, 50), (45, 0), (37, 0), (8, 40), (8, 0), (0, 0).
+# (i know that this solution is over-engineered)
 
-move(50);
-turn_right();
-move(8);
-move_by_vec(50-10, 37-8);
+var points = [
+	Vec(0, 0), 		# origin
+	Vec(0, 50),
+	Vec(8, 50),
+	Vec(37, 10),
+	Vec(37, 50),
+	Vec(45, 50),
+	Vec(45, 0),
+	Vec(37, 0),
+	Vec(8, 40),
+	Vec(8, 0),
+	Vec(0, 0),
+];
 
-function move (dist) { turtle.move(dist); }
-function turn (deg) { turtle.turn(deg); }
-function turn_right () { turn(90); }
-
-function move_by_vec (x, y) {
-	turn_by_vec(x, y);
-	move(vec_mag(x, y));
+for var i in 1:points.size() do {
+	var last_pos = points[i-1];
+	var new_pos = points[i];
+	var vec = last_pos.to(new_pos);
+	vec.move_turtle();
 }
 
-function turn_by_vec (x, y) {
-	var rad = math.atan2(x, y);
-	var deg = 180 / math.pi() * rad;
-	turn(deg);
-}
+# 2-D Vector
+class Vec {
+	use namespace math;
+	use namespace turtle;
 
-# magnitude of vector
-function vec_mag (x, y) {
-	return math.sqrt(x^2 + y^2);
+	public:
+		var x = 0;
+		var y = 0;
+
+		constructor(x_value, y_value) {
+			x = x_value;
+			y = y_value;
+		}
+
+		function to (vec) {
+			return Vec(vec.x - x, vec.y - y);
+		}
+
+		function mag () {
+			return math.sqrt(x^2 + y^2);
+		}
+
+		function turn_turtle (is_clockwise) {
+			var rad = math.atan2(x, y);
+			var deg = -180 / math.pi() * rad;
+			if is_clockwise then deg = 360 - deg;	# invert direction if counter-clockwise
+			turtle.turn(deg);
+		}
+
+		function move_turtle () {
+			turn_turtle(true);
+			turtle.move(mag());
+			turn_turtle(false);
+		}
 }
