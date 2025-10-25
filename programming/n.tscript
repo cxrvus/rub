@@ -43,16 +43,17 @@ class Vec {
 			return math.sqrt(x^2 + y^2);
 		}
 
-		function turn_turtle (is_clockwise) {
+		function turn_turtle (is_counter_clockwise) {
 			var rad = math.atan2(x, y);
-			var deg = -180 / math.pi() * rad;
-			if is_clockwise then deg = 360 - deg;	# invert direction if counter-clockwise
+			var deg = 180 / math.pi() * rad;
+			if is_counter_clockwise then deg = 360 - deg;	# invert direction if counter-clockwise
 			turtle.turn(deg);
 		}
 
+		# turn towards vec, move by vec magnitude, then turn back into the original rotation 
 		function move_turtle () {
-			turn_turtle(true);
-			turtle.move(mag());
 			turn_turtle(false);
+			turtle.move(mag());
+			turn_turtle(true);
 		}
 }
