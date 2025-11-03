@@ -9,9 +9,11 @@ const cipher_values = [...ciphertext.toLowerCase()]
 
 const m = alphabet.length;
 
+const modulo = (x, m) => ((x % m) + m) % m;
+
 for (let k = 0; k < m; k++) {
 	const plaintext = cipher_values
-		.map(x => Math.abs(x - k % m))
+		.map(x => modulo(x - k, m))
 		.map(x => alphabet[x])
 		.join('')
 	;

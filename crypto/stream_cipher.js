@@ -11,8 +11,10 @@ const getValues = chars => chars
 const cipherValues = getValues([...ciphertext.toLowerCase()]);
 const keyValues = getValues([...key.toLowerCase()]);
 
+const modulo = (x, m) => ((x % m) + m) % m;
+
 const plaintext = cipherValues
-	.map((c,i) => c ^ keyValues[i])
+	.map((c,i) => modulo(c - keyValues[i], 26))
 	.map(p => alphabet[p])
 	.join('')
 ;
