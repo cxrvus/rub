@@ -1,0 +1,39 @@
+function processArray(arr) {
+	var censoredArr = [];
+	var semicolonTerminated = [];
+
+	for var str in arr do {
+		if contains(str, ["Computer", "rechnen", "schnell"]) then {
+			if endsWith(str, ";") then {
+				semicolonTerminated.push(str);
+			} else {
+				censoredArr.push(str);
+			}
+		}
+	}
+
+	var newArr = Array.concat(censoredArr, semicolonTerminated);
+
+	mutArray(arr, newArr);
+
+	return semicolonTerminated.size();
+}
+
+function contains(haystack, searchTerms) {
+	for var term in searchTerms do {
+		if haystack.find(term) != null then {
+			return true;
+		}
+	}
+	return false;
+}
+
+function endsWith(str, ending) {
+	var lastIndex = str.size() - 1;
+	return str.find(ending, lastIndex, true) == lastIndex;
+}
+
+function mutArray(arr, newArr) {
+	for var _ in arr do { arr.pop(); }
+	for var x in newArr do { arr.push(x); }
+}

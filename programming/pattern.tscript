@@ -1,0 +1,20 @@
+function pattern(w, h) {
+	var count = 0;
+
+	for var x in 0:w do {
+		for var y in 0:h do {
+			if x * y % 7 == 4 then {
+				rect(x, y);
+				count++;
+			}
+		}
+	}
+
+	return count;
+}
+
+function rect(x, y) {
+	canvas.fillRect(10 * x, 10 * y, 10, 10);
+}
+
+# pattern(50, 50);
