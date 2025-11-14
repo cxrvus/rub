@@ -1,13 +1,43 @@
 var frameHeight = canvas.height();
 var frameWidth = canvas.width();
 
-monochromeRect(0, 0, frameWidth, frameHeight, 1);
-
 var floorHeight = 20;
+var floorTop = frameHeight - floorHeight;
 
-monochromeRect(0, frameHeight - floorHeight, frameWidth, floorHeight, 0.5);
+var rectSize1 = 80;
+var rectSize2 = 120;
 
-function monochromeRect(left, top, width, height, brightness) {
-	canvas.setFillColor(brightness, brightness, brightness);
-	canvas.frameRect(left, top, width, height);
+var background = Rect(0, 0, frameWidth, frameHeight, 1);
+var floor = Rect(0, floorTop, frameWidth, floorHeight, 0.5);
+var rect1 = Rect(50, floorTop - rectSize1, rectSize1, rectSize1, 0.7);
+var rect2 = Rect(300, floorTop - rectSize2, rectSize2, rectSize2, 0.7);
+
+class Rect {
+	use namespace canvas;
+
+	private:
+	 	var posx; # center position
+		var left;
+		var top;
+		var height;
+		var width;
+		var color;
+
+	public:
+		constructor(_left, _top, _width, _height, _color) {
+			left = _left;
+			top = _top;
+			width = _width;
+			height = _height;
+			color = _color;
+			posx = left + width / 2;
+
+			draw();
+		}
+
+		function draw() {
+			canvas.setFillColor(color, color, color);
+			canvas.frameRect(left, top, width, height);
+		}
+}
 }
