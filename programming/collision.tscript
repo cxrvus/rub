@@ -4,20 +4,32 @@ var frameWidth = canvas.width();
 var floorHeight = 20;
 var floorTop = frameHeight - floorHeight;
 
-var rectSize1 = 80;
-var rectSize2 = 120;
+clear();
 
-var background = Rect(0, 0, frameWidth, frameHeight, 1);
-var floor = Rect(0, floorTop, frameWidth, floorHeight, 0.5);
+var squareSize1 = 80;
+var squareSize2 = 120;
 
-var rect1 = Square(50, floorTop - rectSize1, rectSize1, 1);
-var rect2 = Square(300, floorTop - rectSize2, rectSize2, -1);
+var square1 = Square(50, floorTop - squareSize1, squareSize1, 1);
+var square2 = Square(300, floorTop - squareSize2, squareSize2, -1);
+
+for var i in 0:1000 do {
+	clear();
+	square1.move();
+	square2.move();
+	wait(10);
+}
+
+function clear () {
+	var background = Rect(0, 0, frameWidth, frameHeight, 1);
+	var floor = Rect(0, floorTop, frameWidth, floorHeight, 0.5);
+}
 
 class Rect {
 	use namespace canvas;
 
 	private:
-	 	var posx; # center position
+	 	var centerX;
+		var right;
 		var left;
 		var top;
 		var height;
@@ -25,13 +37,15 @@ class Rect {
 		var color;
 
 	public:
+
 		constructor(_left, _top, _width, _height, _color) {
 			left = _left;
 			top = _top;
 			width = _width;
+			right = left + width;
+			centerX = left + width / 2;
 			height = _height;
 			color = _color;
-			posx = left + width / 2;
 
 			draw();
 		}
@@ -39,6 +53,11 @@ class Rect {
 		function draw() {
 			canvas.setFillColor(color, color, color);
 			canvas.frameRect(left, top, width, height);
+		}
+
+		function move(dist) {
+			left += dist;
+			draw();
 		}
 }
 
@@ -54,7 +73,7 @@ class Square {
 			vel = _vel;
 		}
 
-		function draw() {
-			rect.draw();
+		function move() {
+			rect.move(vel);
 		}
 }
