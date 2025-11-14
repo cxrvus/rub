@@ -15,7 +15,11 @@ var square2 = Square(300, floorTop - squareSize2, squareSize2, -1);
 for var i in 0:1000 do {
 	clear();
 	square1.move();
+	square1.collide(square2);
+
 	square2.move();
+	square2.collide(square1);
+
 	wait(10);
 }
 
@@ -28,22 +32,17 @@ class Rect {
 	use namespace canvas;
 
 	private:
-	 	var centerX;
 		var top;
 		var height;
-		var width;
 		var color;
-
-	public:
-		var right;
 		var left;
 
+	public:
+		var width;
 		constructor(_left, _top, _width, _height, _color) {
 			left = _left;
 			top = _top;
 			width = _width;
-			right = left + width;
-			centerX = left + width / 2;
 			height = _height;
 			color = _color;
 
@@ -59,12 +58,28 @@ class Rect {
 			left += dist;
 			draw();
 		}
+
+		function getLeft() {
+			return left;
+		}
+
+		function getRight() {
+			return left + width;
+		}
 }
 
 class Square {
 	private:
 		var squareColor = 0.7;
 		var vel;
+
+		function collides(other) {
+			var leftCollision  = rect.getLeft() <= other.rect.getRight();
+			var rightCollision = rect.getRight() >= other.rect.getLeft();
+			var collision = leftCollision and rightCollision;
+
+			return collision;
+		}
 
 	public:
 		var rect;
@@ -78,10 +93,11 @@ class Square {
 			rect.move(vel);
 		}
 
-		function collides(other) {
-			var leftCollision = rect.left <= other.rect.right;
-			var rightCollision = rect.right >= other.rect.left;
+		function collide(other) {
+			if collides(other) then vel *= -1;
+		}
 
-			return leftCollision or rightCollision;
+		function xpos() {
+			rect.getLeft() + rect.width / 2;
 		}
 }
