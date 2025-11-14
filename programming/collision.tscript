@@ -29,14 +29,14 @@ class Rect {
 
 	private:
 	 	var centerX;
-		var right;
-		var left;
 		var top;
 		var height;
 		var width;
 		var color;
 
 	public:
+		var right;
+		var left;
 
 		constructor(_left, _top, _width, _height, _color) {
 			left = _left;
@@ -64,10 +64,11 @@ class Rect {
 class Square {
 	private:
 		var squareColor = 0.7;
-		var rect;
 		var vel;
 
 	public:
+		var rect;
+
 		constructor(_left, _top, size, _vel) {
 			rect = Rect(_left, _top, size, size, squareColor);
 			vel = _vel;
@@ -75,5 +76,12 @@ class Square {
 
 		function move() {
 			rect.move(vel);
+		}
+
+		function collides(other) {
+			var leftCollision = rect.left <= other.rect.right;
+			var rightCollision = rect.right >= other.rect.left;
+
+			return leftCollision or rightCollision;
 		}
 }
