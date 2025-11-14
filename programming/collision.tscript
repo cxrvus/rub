@@ -1,0 +1,13 @@
+var frameHeight = canvas.height();
+var frameWidth = canvas.width();
+
+monochromeRect(0, 0, frameWidth, frameHeight, 1);
+
+var floorHeight = 20;
+
+monochromeRect(0, frameHeight - floorHeight, frameWidth, floorHeight, 0.5);
+
+function monochromeRect(left, top, width, height, brightness) {
+	canvas.setFillColor(brightness, brightness, brightness);
+	canvas.frameRect(left, top, width, height);
+}
