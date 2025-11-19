@@ -12,7 +12,27 @@ public:
 
 function listPaths(graph)
 {
-	# TODO
+	var stack = [];
+	var paths = [];
+
+	# reverse
+	for var node in graph do {
+		stack.insert(0, deepcopy(node.edges));
+	}
+
+	for var node in stack do {
+		for var edge in node.edges do {
+			
+		}
+	}
+
+	return stack;
+
+	# if graph.nodes.size() == 0 {
+	# 	return []
+	# } else {
+	# 	return listPaths()
+	# }
 }
 
 # todo: remove	----------------
