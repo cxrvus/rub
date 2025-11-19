@@ -1,0 +1,28 @@
+class Node
+{
+public:
+	constructor(color_, edges_)
+	{
+		color = color_;
+		edges = edges_;
+	}
+	var color;
+	var edges;
+}
+
+function listPaths(graph)
+{
+	# TODO
+}
+
+# todo: remove	----------------
+var graph = [
+		Node("red", [1,2,4]),
+		Node("white", [2]),
+		Node("red", [3,4]),
+		Node("yellow", [4]),
+		Node("blue", [])
+	]
+;
+
+print(listPaths(graph));
