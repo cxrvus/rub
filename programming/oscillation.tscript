@@ -1,0 +1,8 @@
+# return lambda function n => ()
+# horizontal line length = 6 (wave length = 12)
+# vertical line length = n (amplitude)
+
+function createWave(amplitude)
+{
+	# TODO
+}
