@@ -1,8 +1,24 @@
 # return lambda function n => ()
 # horizontal line length = 6 (wave length = 12)
-# vertical line length = n (amplitude)
+# vertical line length = amplitude
+
+var waveLength = 12;
 
 function createWave(amplitude)
 {
-	# TODO
+	return function [amplitude] (n) {
+		for var _ in 0:n do {
+			halfPeriod(amplitude, 90);
+			halfPeriod(amplitude, 270);
+		}
+	};
 }
+
+function halfPeriod(amplitude, deg) {
+	turtle.move(amplitude);
+	turtle.turn(deg);
+	turtle.move(waveLength / 2);
+	turtle.turn(deg);
+}
+
+# createWave(12)(4);
