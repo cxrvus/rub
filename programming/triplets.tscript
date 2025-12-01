@@ -1,4 +1,16 @@
 function cubicTriplets(n)
 {
-	// TODO
+	var triplets = [];
+	var max = math.pow(n, 3);
+
+	for var x in 0:max do {
+		var entry = [(x)%3, (x//3)%3, (x//9)%3];
+		entry = String.join(entry, ":");
+		triplets.push(entry);
+	}
+
+	# var cubes = [];
+	return triplets;
 }
+
+print(cubicTriplets(3));
