@@ -1,0 +1,24 @@
+function plan(board)
+{
+	
+}
+
+function getMoves(board, distance) {
+	var i = 0;
+	var destinations = [];
+
+	for var field in board do {
+		var destination = board[i + distance];
+
+		if field == "gelb" and destination == "rot" then {
+			destinations.push(destination);
+		}
+
+		i++;
+	}
+
+	return destinations;
+}
+
+var example = ["rot", "gelb", "rot", null, null, "rot", "gelb", null, "gelb", null];
+print(plan(example));
