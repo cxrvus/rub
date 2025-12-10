@@ -1,23 +1,61 @@
-function plan(board)
+# unfinished
+
+function plan(original_fields)
 {
-	
-}
+	var original_board = Board(original_fields);
+	var boards = [original_board]
+	var move_sets = [];
 
-function getMoves(board, distance) {
-	var i = 0;
-	var destinations = [];
+	while boards.size() > 0 do {
+		var distance = 1;
+		var board = boards.pop();
 
-	for var field in board do {
-		var destination = board[i + distance];
-
-		if field == "gelb" and destination == "rot" then {
-			destinations.push(destination);
+		for field in board.player_fields() do {
+			var hit = board.move(field, distance)
 		}
 
-		i++;
 	}
 
-	return destinations;
+	return move_sets;
+}
+
+class Board {
+	public:
+		var fields;
+		var size;
+		var moves = [];
+		var hits = 0;
+
+	constructor(fields_) {
+		fields = fields_;
+		size = fields.size();
+	}
+
+	function is_opponent(piece) { return piece == "rot"; }
+	function is_player(piece) { return piece == "gelb"; }
+	function player_fields() { 
+		var pieces = [];
+		for var i in 0:size do {
+			if is_player(fields[i]) then pieces.push(i);
+		}
+		return pieces;
+	}
+
+	function move(origin_field, distance) {
+		var dest_field = (origin_field + distance) % size;
+		var dest_piece = fields[dest_field];
+
+		if is_player(dest_piece) then return false; 	# can't hit your own pieces
+		
+		# move your piece:
+		fields[dest_field] = "gelb";
+		fields[origin_field] = null;
+		moves.push(origin_field);
+		
+		if is_opponent(dest_piece) then return true; 	# hits opponent's piece
+
+		return false;	# hit empty field
+	}
 }
 
 var example = ["rot", "gelb", "rot", null, null, "rot", "gelb", null, "gelb", null];
