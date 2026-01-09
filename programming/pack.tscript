@@ -1,0 +1,65 @@
+# a in {1,…,128}, b in {1,…,52}, c in {1,…,1000}, d in {1,…,250}
+
+# => all offset by 1
+# bit lengths: a: 7, b: 6, c: 10, d: 8 (sum = 31)
+
+function pack(a, b, c, d) {
+	var acc = 0;
+
+	acc = pack_single(acc, a, 128, 7);
+	acc = pack_single(acc, b, 52, 6);
+	acc = pack_single(acc, c, 1000, 10);
+	acc = pack_single(acc, d, 250, 8);
+	
+	return acc;
+}
+
+function unpack(n) {
+	if Type(n) != Integer then throw "parameter must be an integer";
+
+	var d = unpack_single(n, 8, 0);
+	var c = unpack_single(n, 10, 8);
+	var b = unpack_single(n, 6, 18);
+	var a = unpack_single(n, 7, 24);
+
+	return [a,b,c,d];
+}
+
+function test(a, b, c, d) {
+	print("testing:");
+	print([a, b, c, d]);
+
+	var packed = pack(a, b, c, d);
+	print(packed);
+
+	var unpacked = unpack(packed);
+	print(unpacked);
+
+	if unpacked == [a, b, c, d] then {
+		print("OK");
+	} else {
+		print("ERR");
+	}
+}
+
+function pack_single(acc, n, max, size) {
+	validate(n, max);
+	if n < 1 then throw "parameter must be greater than 0";
+	return (acc * (2 ^ size)) or (n - 1); # (acc << offset) | (n - 1)
+}
+
+function unpack_single(n, size, offset) {
+	var mask = ((2 ^ size) - 1) * (2 ^ offset); # ((2 << size) - 1) << offset
+	return ((n and mask) // (2 ^ offset)) + 1; # ((n & mask) >> offset)
+}
+
+function validate(n, max) {
+	if Type(n) != Integer then throw "parameter must be an integer";
+	if n > max then throw "parameter exceeded max value";
+}
+
+test(128, 52, 1000, 250);
+test(1, 2, 3, 4);
+test(1, 1, 1, 1);
+test(2, 2, 2, 2);
+test(67,42,420,69);
