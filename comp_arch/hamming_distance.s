@@ -1,13 +1,15 @@
+# we can re-use our hamming-weight code,
+# since HD=HW(XOR(a,b))
+
+xor t0 t1 t0
+li t1 0
+
+# calculate hamming-weight of t0...
+
 # loop 32 times (for a 32-bit word size)
 # use t4 as a count-down variable
 li t4 32
 
-# we can re-use our hamming-weight code,
-# since HD=HW(XOR(a,b))
-xor t0 t1 t0
-li t1 0
-
-# calculate hamming-weight of t0
 loop:
     beqz t4 end
     
