@@ -1,0 +1,70 @@
+class Bitstring
+{
+public:
+	constructor(value) {
+		if Type(value) == Boolean then {
+			for var i in 0:39 do {
+				bit_str.push(value);
+			}
+		} else if Type(value) == Bitstring then {
+			for var i in 0:39 do bit_str[i] = value.get(i);
+		} else {
+			throw "value must be of type Boolean or Bitstring";
+		}
+	}
+
+	function get(k) {
+		validate_number(k);
+		return bit_str[k];
+	}
+
+	function set(k) {
+		validate_number(k);
+		bit_str[k] = true;
+	}
+
+	function clear(k) {
+		validate_number(k);
+		bit_str[k] = false;
+	}
+
+	function bitand(bits) {
+		validate_bit_str(bits);
+		for var i in 0:39 do bit_str[i] = bit_str[i] and bits.get(i);
+	}
+
+	function bitor(bits) {
+		validate_bit_str(bits);
+		for var i in 0:39 do bit_str[i] = bit_str[i] or bits.get(i);
+	}
+
+	function bitxor(bits) {
+		validate_bit_str(bits);
+		for var i in 0:39 do bit_str[i] = bit_str[i] xor bits.get(i);
+	}
+
+	function bitnot() {
+		for var i in 0:39 do bit_str[i] = not bit_str[i];
+	}
+
+	function str() {
+		var result = "";
+		var char = "";
+		for var i in 0:39 do {
+			if bit_str[i] then { char = "1"; } else char = "0";
+			result += char;
+		}
+		return result;
+	}
+
+private:
+	var bit_str = [];
+}
+
+function validate_number(k) {
+	if Type(k) != Integer or k < 0 or k >= 39 then throw "k must be an integer between 0 and 39";
+}
+
+function validate_bit_str(bits) {
+	if Type(bits) != Bitstring then throw "s must be a bit string";
+}
