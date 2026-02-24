@@ -1,0 +1,30 @@
+function parity(n) {
+	var hw = 0;
+	var sign = false;
+	if n < 0 then sign = true;
+	if sign then {
+		hw += 1;
+		n = not n + 1;
+	}
+
+	n = math.abs(n);
+
+	for var i in 0:32 do {
+		var bit = ((n // (2^i)) and 1) == 1;
+		#print([i, bit]);
+		if bit then hw += 1;
+	}
+
+	return hw % 2;
+}
+
+print(parity(0));
+print(parity(1));
+print(parity(4));
+print(parity(5));
+
+print(parity(-1));
+print(parity(-2));
+
+print(parity(38));
+print(parity(-38));

@@ -1,0 +1,19 @@
+setEventHandler("canvas.keydown", quitEventMode);
+
+var centerCoords = null;
+
+setEventHandler("canvas.mousedown", onMouseDown);
+enterEventMode();
+
+function onMouseDown(evt) {
+	if centerCoords == null then {
+		centerCoords = [evt.x, evt.y];
+	} else {
+		drawRect(centerCoords[0], centerCoords[1], evt.x, evt.y);
+		centerCoords = null;
+	}
+}
+
+function drawRect(center_x, center_y, edge_x, edge_y) {
+	print([center_x, center_y, edge_x, edge_y]);
+}

@@ -1,0 +1,23 @@
+function tree3(len, alpha, beta, depth) {
+	if depth == 0 then return;
+
+	turtle.move(len);
+
+	var mode = depth % 3;
+
+	if mode != 2 then {
+		turtle.turn(-alpha);
+		tree3(0.9 * len, alpha, beta, depth - 1);
+		turtle.turn(alpha);
+	}
+
+	if mode != 1 then {
+		turtle.turn(beta);
+		tree3(0.9 * len, alpha, beta, depth - 1);
+		turtle.turn(-beta);
+	} 
+
+	turtle.move(-len);
+}
+
+tree3(12, 25, 30, 16);
