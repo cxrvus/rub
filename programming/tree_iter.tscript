@@ -1,0 +1,59 @@
+class Iterator
+{
+private:
+	var node;
+
+public:
+	constructor(tree)
+	{
+		# TODO
+	}
+
+	function value()
+	{
+		# TODO
+	}
+
+	function next()
+	{
+		# TODO
+	}
+
+	function end()
+	{
+		# TODO
+	}
+}
+
+class Node
+{
+public:
+	constructor(val, l=null, r=null)
+	{
+		value = val;
+		left = l;
+		right = r;
+		if l != null then l.parent = this;
+		if r != null then r.parent = this;
+	}
+	var parent;
+	var left;
+	var right;
+	var value;
+}
+
+function output(tree)
+{
+	if tree.left != null then output(tree.left);
+	return tree.value;
+	if tree.right != null then output(tree.right);
+}
+
+var foo = Node("ein",
+	Node("Dies",
+		null,
+		Node("ist")),
+	Node("Test")
+);
+
+print(output(foo));
