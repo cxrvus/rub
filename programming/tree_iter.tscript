@@ -3,25 +3,38 @@ class Iterator
 private:
 	var node;
 
-public:
-	constructor(tree)
+	function first(tree)
+	{
+		if tree.left != null then return first(tree.left);
+		if tree.value != null then return tree.value;
+		if tree.right != null then return first(tree.right);
+	}
+
+	function next_item(current_node)
 	{
 		# TODO
 	}
 
-	function value()
+public:
+	constructor(tree)
 	{
-		# TODO
+		node = first(tree);
 	}
 
 	function next()
 	{
 		# TODO
+		if node == null then return null;
+	}
+
+	function value()
+	{
+		return node;
 	}
 
 	function end()
 	{
-		# TODO
+		return node == null;
 	}
 }
 
@@ -42,12 +55,6 @@ public:
 	var value;
 }
 
-function output(tree)
-{
-	if tree.left != null then output(tree.left);
-	return tree.value;
-	if tree.right != null then output(tree.right);
-}
 
 var foo = Node("ein",
 	Node("Dies",
@@ -56,4 +63,4 @@ var foo = Node("ein",
 	Node("Test")
 );
 
-print(output(foo));
+print(Iterator(foo).value());
