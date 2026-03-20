@@ -1,0 +1,29 @@
+function get_gcd(int1, int2) {
+	var divisors1 = [];
+	var divisors2 = [];
+	var gcd = 1;
+	var greaterNum = math.max(int1, int2);
+	var max = greaterNum + 1;
+
+	for var i in 1:max do {
+		if int1 % i == 0 and int2 % i == 0 then gcd = i;
+	}
+
+	return gcd;
+}
+
+function teilerfremd(int1, int2)
+{
+	return get_gcd(int1, int2) == 1;
+}
+
+function test(n) {
+	for var i in 0:n do {
+		var int1 = math.floor(math.random() * 1000) + 1;
+		var int2 = math.floor(math.random() * 1000) + 1;
+		var gcd = get_gcd(int1, int2);
+		print(int1 + ";" + int2 + ";" + gcd);
+	}
+}
+
+test(100);

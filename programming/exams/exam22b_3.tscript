@@ -1,0 +1,20 @@
+function convertToDictionary(a)
+{
+	if Type(a) != Array then throw "input needs to be of type Array";
+
+	var dict = {};
+
+	for var i in 0:a.size() do {
+		var key = "#" + (i + 1);
+		dict[key] = a[i];
+	}
+
+	return dict;
+}
+
+function test(a) {
+	print(convertToDictionary(a));
+}
+
+test([true, "test", [55]]);
+test([]);

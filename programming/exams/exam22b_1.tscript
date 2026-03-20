@@ -1,0 +1,12 @@
+function f7(n)
+{
+	assert(Type(n) == Integer);
+	assert(n >= 0);
+	if n == 0 then return [];
+	var a = [];
+	for var i in 0:n do {
+		if i % 7 != 0 then a.push(i);
+	}
+	return a;
+}
+

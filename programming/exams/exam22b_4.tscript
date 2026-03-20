@@ -1,0 +1,37 @@
+class Fruit
+{
+private:
+	var m_price;
+	var m_weight;
+
+public:
+	constructor(price, weight)
+	{
+		m_price = price;
+		m_weight = weight;
+	}
+
+	function price()
+	{ return m_price; }
+
+	function weight()
+	{ return m_weight; }
+}
+
+class Apple : Fruit {
+private:
+	var m_color;
+
+public:
+	constructor(price, weight, color) : super(price, weight) {
+		m_color = color;
+	}
+
+	function color() {
+		return m_color;
+	}
+
+	function price() {
+		return super.price() * 0.8;
+	}
+}
