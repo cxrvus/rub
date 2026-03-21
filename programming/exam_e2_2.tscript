@@ -1,0 +1,25 @@
+function hashFunc(s)
+{
+	var value = 132;
+	for var i in 0:s.size() do value = 11 * value + s[i];
+	return value;
+}
+
+function hasCollision(a, h)
+{
+	var hashes = {};
+
+	for var x in a do {
+		var hash = "#" + h(x);
+		if hashes.has(hash) then return true;
+		hashes[hash] = true;
+	}
+
+	return false;
+}
+
+function test(a) {
+	print(hasCollision(a, hashFunc));
+}
+
+test(["a", "a"]);

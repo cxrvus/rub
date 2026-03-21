@@ -1,0 +1,29 @@
+function f(n)
+{
+	assert(Type(n) == Integer);
+	assert(n >= 0);
+	var p = 1.0;
+	while n > 0 do
+	{
+		p *= n;
+		n -= 1;
+	}
+	return p;
+}
+
+function g(n)
+{
+	assert(Type(n) == Integer);
+	assert(n >= 0);
+	if n == 0 then { return 1.0; }
+	else return n * g(n-1);
+}
+
+
+function test(n) {
+	for var i in 0:n do {
+		print([i, f(i), g(i), f(i) == g(i)]);
+	}
+}
+
+test(30);

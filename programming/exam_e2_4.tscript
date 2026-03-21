@@ -1,0 +1,19 @@
+function drawPattern(b, v)
+{
+	for var x in 1:50 do
+	{
+		for var y in 1:50 do
+		{
+			var square = true;   # TODO: set this value depending on x and y
+			if square then canvas.fillRect(10*x, 10*y, 10, 10);
+		}
+	}
+}
+
+# s * t % b == (s % b) * (t % b) % b
+
+function check(x, y, b, v) {
+	var acc = x;
+}
+
+drawPattern(18, 1);

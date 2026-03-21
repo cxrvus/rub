@@ -1,0 +1,16 @@
+function convert(a, n, m)
+{
+	var rows = [];
+
+	for var y in 0:n do {
+		var row = [];
+		for var x in 0:m do {
+			row.push(a[y*m+x]);
+		}
+		rows.push(row);
+	}
+
+	return rows;
+}
+
+print(convert([0, 1, 2, 3, 4, 5], 3, 2));
