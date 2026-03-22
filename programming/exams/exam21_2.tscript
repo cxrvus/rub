@@ -1,0 +1,31 @@
+function drawFractal(n, len)
+{
+	for var _ in 0:5 do {
+		drawSegment(n, len);
+		turtle.turn(360/5);
+	}
+}
+
+function drawSegment(n, len)
+{
+	if n == 0 then  {
+		turtle.move(len);
+		return;
+	}
+
+	drawSegment(n-1, len * 0.25);
+	turtle.turn(90);
+
+	drawSegment(n-1, len * 0.12);
+	turtle.turn(-90);
+
+	drawSegment(n-1, len * 0.5);
+	turtle.turn(-90);
+
+	drawSegment(n-1, len * 0.12);
+	turtle.turn(90);
+
+	drawSegment(n-1, len * 0.25);
+}
+
+drawFractal(3, 33);

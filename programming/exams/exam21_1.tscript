@@ -1,0 +1,11 @@
+function popcount(n)
+{
+	var hw = 0;
+	for var i in 0:32 do {
+		var current = (n // (2^i) and 1) == 1;
+		if current then hw += 1;
+	}
+	return hw;
+}
+
+print(popcount(37));
