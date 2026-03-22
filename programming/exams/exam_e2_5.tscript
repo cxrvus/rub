@@ -1,0 +1,50 @@
+class ShoppingCart
+{
+private:
+	var products = {};
+
+public:
+	function add(name, price)
+	{ 
+		if products.has(name) then throw "product already registered";
+		products[name] = price;
+	}
+
+	function remove(name)
+	{
+		if not products.has(name) then throw "product not registered";
+		products.remove(name);
+	}
+
+	function items()
+	{ 
+		var items = products.keys();
+		items.sort();
+		return items;
+	}
+
+	function price(name)
+	{
+		if not products.has(name) then throw "product not registered";
+		return products[name];
+	}
+
+	function sum()
+	{
+		var sum = 0;
+		for var p in products.values() do sum += p;
+		return sum;
+	}
+}
+
+var cart = ShoppingCart();
+
+cart.add("apple", 2.5);
+cart.add("banana", 3);
+cart.add("orange", 4.5);
+cart.add("cat", 110);
+
+cart.remove("banana");
+
+print(cart.items());
+print("total: " + cart.sum());
