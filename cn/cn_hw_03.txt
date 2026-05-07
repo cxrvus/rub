@@ -1,0 +1,8 @@
+util = require("./cn/util")
+[185,232,0,193].map(x => util.bin(x)).join(' ')
+127*256**3+53
+"00000001.00000010.00000100.00001000".split('.').map(x=>parseInt(x,2))
+"10000110.10010011.11001011.00101111".split('.').map(x=>parseInt(x,2)).join('.')
+["17", "B9", "00", "04"].map(x=>parseInt(x,16).toString()).join(".")
+"0x"+"185.199.111.153".split(".").map(x=>parseInt(x).toString(16)).join("").toUpperCase()
+"42.24.47.11".split(".").map(x=>"0x"+parseInt(x).toString(16).toUpperCase()).join(".")
