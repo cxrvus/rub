@@ -22,7 +22,7 @@ struct Graph {
 	edges: Vec<Edge>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 struct Edge(Number, Number);
 
 fn parse_str_opt(string: Option<&str>) -> Number {
@@ -81,8 +81,8 @@ impl Graph {
 
 			for y in 1..=self.node_count {
 				for z in (y + 1)..=self.node_count {
-					if let Some(inclusion) = Inclusion::new(x, y, z) {
-						inclusions.push(inclusion);
+					if pairwise_unequal(x, y, z) {
+						inclusions.push(Inclusion::new(x, y, z));
 					}
 				}
 			}
@@ -102,10 +102,13 @@ impl Graph {
 					for y2 in y1..=self.node_count {
 						for z2 in (y2 + 1)..=self.node_count {
 							if y1 != y2
-								&& z1 != z2 && let (Some(a1), Some(a2)) =
-								(Inclusion::new(x, y1, z1), Inclusion::new(x, y2, z2))
+								&& z1 != z2 && pairwise_unequal(x, y1, z1)
+								&& pairwise_unequal(x, y2, z2)
 							{
-								disjunctions.push(Disjunction(vec![a1.negated(), a2.negated()]));
+								let a1 = Inclusion::new(x, y1, z1).negated();
+								let a2 = Inclusion::new(x, y2, z2).negated();
+
+								disjunctions.push(Disjunction(vec![a1, a2]));
 							}
 						}
 					}
@@ -136,15 +139,14 @@ struct Inclusion {
 	negation: bool,
 }
 
+fn pairwise_unequal(x: Number, y: Number, z: Number) -> bool {
+	x != y && y != z && x != z
+}
+
 impl Inclusion {
 	#[rustfmt::skip]
-	/// checks for pairwise inequality
-	pub fn new(x: Number, y: Number, z: Number) -> Option<Self> {
-		if x != y && y != z && x!=z  {
-			Some(Self { x, y, z, negation: false })
-		} else {
-			None
-		}
+	pub fn new(x: Number, y: Number, z: Number) -> Self {
+		Self {x, y, z, negation: false }
 	}
 
 	#[rustfmt::skip]
