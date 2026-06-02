@@ -10,7 +10,7 @@ fn main() {
 
 	println!("{:#?}", &graph);
 	println!();
-	println!("{:#?}", &graph.to_formula());
+	graph.to_formula();
 }
 
 type Number = u16;
@@ -64,10 +64,10 @@ impl Graph {
 	pub fn to_formula(&self) -> Conjunction {
 		Conjunction(
 			[
-				self.in_min_1_group(),
-				self.in_max_1_group(),
-				self.know_each_other(),
-				self.distinct(),
+				dbg!(self.in_min_1_group()),
+				dbg!(self.in_max_1_group()),
+				dbg!(self.know_each_other()),
+				dbg!(self.distinct()),
 			]
 			.concat(),
 		)
@@ -97,6 +97,28 @@ impl Graph {
 
 	fn in_max_1_group(&self) -> Vec<Disjunction> {
 		let mut disjunctions = vec![];
+
+		for x in 1..=self.node_count {
+			for y1 in 1..=self.node_count {
+				for z1 in 1..=self.node_count {
+					if y1 < z1 {
+						for y2 in 1..=self.node_count {
+							for z2 in 1..=self.node_count {
+								if y1 <= y2
+									&& y2 < z2 && y1 != y2 && z1 != z2
+									&& let (Some(a1), Some(a2)) =
+										(Inclusion::new(x, y1, z1), Inclusion::new(x, y2, z2))
+								{
+									disjunctions
+										.push(Disjunction(vec![a1.negated(), a2.negated()]));
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
 		disjunctions
 	}
 
