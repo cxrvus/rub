@@ -7,18 +7,18 @@ fn main() {
 	let input = input.trim();
 
 	let graph = Graph::from(input);
+	let result = graph.to_dimacs_cnf();
 
-	println!("{:#?}", &graph);
+	print!("{result}");
 	println!();
-	graph.to_formula();
 }
 
-type Number = u16;
+type Number = u32;
 
 #[derive(Debug)]
 struct Graph {
 	node_count: Number,
-	edge_count: Number,
+	_edge_count: Number,
 	edges: Vec<Edge>,
 }
 
@@ -38,7 +38,7 @@ impl From<&str> for Graph {
 		let _p = first_line.next();
 		let _edge = first_line.next();
 		let node_count = parse_str_opt(first_line.next());
-		let edge_count = parse_str_opt(first_line.next());
+		let _edge_count = parse_str_opt(first_line.next());
 
 		let edges = lines
 			.map(|line| {
@@ -54,23 +54,51 @@ impl From<&str> for Graph {
 
 		Self {
 			node_count,
-			edge_count,
+			_edge_count,
 			edges,
 		}
 	}
 }
 
 impl Graph {
-	pub fn to_formula(&self) -> Conjunction {
-		Conjunction(
-			[
-				dbg!(self.in_min_1_group()),
-				dbg!(self.in_max_1_group()),
-				dbg!(self.know_each_other()),
-				dbg!(self.distinct()),
-			]
-			.concat(),
-		)
+	pub fn to_formula(&self) -> Vec<Disjunction> {
+		[
+			self.in_min_1_group(),
+			self.in_max_1_group(),
+			self.know_each_other(),
+			self.distinct(),
+		]
+		.concat()
+	}
+
+	pub fn to_dimacs_cnf(&self) -> String {
+		let formula = self.to_formula();
+
+		// headers
+		let var_count = 1000000.to_string();
+		let clause_count = formula.len().to_string();
+		let mut string = format!("p cnf {var_count} {clause_count}\n");
+
+		for disjunction in formula {
+			for inclusion in disjunction.0 {
+				let Inclusion { x, y, z, negation } = inclusion;
+
+				if negation {
+					string.push('-');
+				}
+
+				// assuming nodes < 100 for positional formatting: xxyyzz
+				let x = x * 10000;
+				let y = y * 100;
+				let inclusion_sum = x + y + z;
+
+				string += &format!("{:06} ", inclusion_sum);
+			}
+
+			string += "0\n";
+		}
+
+		string
 	}
 
 	fn in_min_1_group(&self) -> Vec<Disjunction> {
@@ -205,6 +233,3 @@ impl Inclusion {
 
 #[derive(Debug, Clone)]
 struct Disjunction(Vec<Inclusion>);
-
-#[derive(Debug, Clone)]
-struct Conjunction(Vec<Disjunction>);
