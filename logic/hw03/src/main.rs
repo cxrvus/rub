@@ -138,8 +138,43 @@ impl Graph {
 	}
 
 	fn distinct(&self) -> Vec<Disjunction> {
-		let mut disjunctions = vec![];
-		disjunctions
+		let mut clauses = vec![];
+
+		for x in 1..=self.node_count {
+			for y in (x + 1)..=self.node_count {
+				for z in (y + 1)..=self.node_count {
+					if pairwise_unequal(x, y, z) {
+						let clause = [
+							Self::xnor((x, y, z), (x, z, y)),
+							Self::xnor((x, z, y), (y, x, z)),
+							Self::xnor((y, x, z), (y, z, x)),
+							Self::xnor((y, z, x), (z, x, y)),
+							Self::xnor((z, x, y), (z, y, x)),
+						]
+						.concat();
+
+						clauses.push(clause);
+					}
+				}
+			}
+		}
+		clauses.concat()
+	}
+
+	fn xnor(inc1: (Number, Number, Number), inc2: (Number, Number, Number)) -> Vec<Disjunction> {
+		let (x1, y1, z1) = inc1;
+		let (x2, y2, z2) = inc2;
+
+		vec![
+			Disjunction(vec![
+				Inclusion::new(x1, y1, z1),
+				Inclusion::new(x2, y2, z2).negated(),
+			]),
+			Disjunction(vec![
+				Inclusion::new(x1, y1, z1).negated(),
+				Inclusion::new(x2, y2, z2),
+			]),
+		]
 	}
 }
 
