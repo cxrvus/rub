@@ -8,7 +8,9 @@ fn main() {
 
 	let graph = Graph::from(input);
 
-	dbg!(graph);
+	println!("{:#?}", &graph);
+	println!();
+	println!("{:#?}", &graph.to_formula());
 }
 
 type Number = u16;
@@ -74,13 +76,15 @@ impl Graph {
 	fn in_min_1_group(&self) -> Vec<Disjunction> {
 		let mut disjunctions = vec![];
 
-		for x in 0..self.node_count {
+		for x in 1..=self.node_count {
 			let mut inclusions = vec![];
 
-			for y in 0..self.node_count {
-				for z in 0..self.node_count {
-					if y < z {
-						inclusions.push(Inclusion::new(x, y, z));
+			for y in 1..=self.node_count {
+				for z in 1..=self.node_count {
+					if let Some(inclusion) = Inclusion::new(x, y, z)
+						&& y < z
+					{
+						inclusions.push(inclusion);
 					}
 				}
 			}
@@ -92,15 +96,18 @@ impl Graph {
 	}
 
 	fn in_max_1_group(&self) -> Vec<Disjunction> {
-		todo!()
+		let mut disjunctions = vec![];
+		disjunctions
 	}
 
 	fn know_each_other(&self) -> Vec<Disjunction> {
-		todo!()
+		let mut disjunctions = vec![];
+		disjunctions
 	}
 
 	fn distinct(&self) -> Vec<Disjunction> {
-		todo!()
+		let mut disjunctions = vec![];
+		disjunctions
 	}
 }
 
@@ -115,14 +122,18 @@ struct Inclusion {
 
 impl Inclusion {
 	#[rustfmt::skip]
-	pub fn new(x: Number, y: Number, z: Number) -> Self {
-		Self { x, y, z, negation: false, }
+	/// checks for pairwise inequality
+	pub fn new(x: Number, y: Number, z: Number) -> Option<Self> {
+		if x != y && y != z && x!=z  {
+			Some(Self { x, y, z, negation: false })
+		} else {
+			None
+		}
 	}
 
 	#[rustfmt::skip]
-	pub fn negated(x: Number, y: Number, z: Number) -> Self {
-		Self { x, y, z, negation: true,
-		}
+	pub fn negated(self) -> Self {
+		Self { negation: true, ..self  }
 	}
 }
 
