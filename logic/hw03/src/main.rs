@@ -80,10 +80,8 @@ impl Graph {
 			let mut inclusions = vec![];
 
 			for y in 1..=self.node_count {
-				for z in 1..=self.node_count {
-					if let Some(inclusion) = Inclusion::new(x, y, z)
-						&& y < z
-					{
+				for z in (y + 1)..=self.node_count {
+					if let Some(inclusion) = Inclusion::new(x, y, z) {
 						inclusions.push(inclusion);
 					}
 				}
@@ -100,18 +98,14 @@ impl Graph {
 
 		for x in 1..=self.node_count {
 			for y1 in 1..=self.node_count {
-				for z1 in 1..=self.node_count {
-					if y1 < z1 {
-						for y2 in 1..=self.node_count {
-							for z2 in 1..=self.node_count {
-								if y1 <= y2
-									&& y2 < z2 && y1 != y2 && z1 != z2
-									&& let (Some(a1), Some(a2)) =
-										(Inclusion::new(x, y1, z1), Inclusion::new(x, y2, z2))
-								{
-									disjunctions
-										.push(Disjunction(vec![a1.negated(), a2.negated()]));
-								}
+				for z1 in (y1 + 1)..=self.node_count {
+					for y2 in y1..=self.node_count {
+						for z2 in (y2 + 1)..=self.node_count {
+							if y1 != y2
+								&& z1 != z2 && let (Some(a1), Some(a2)) =
+								(Inclusion::new(x, y1, z1), Inclusion::new(x, y2, z2))
+							{
+								disjunctions.push(Disjunction(vec![a1.negated(), a2.negated()]));
 							}
 						}
 					}
