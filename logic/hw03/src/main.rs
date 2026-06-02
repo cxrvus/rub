@@ -121,6 +121,19 @@ impl Graph {
 
 	fn know_each_other(&self) -> Vec<Disjunction> {
 		let mut disjunctions = vec![];
+
+		for x in 1..=self.node_count {
+			for y in (x + 1)..=self.node_count {
+				if !self.edges.contains(&Edge(x, y)) && !self.edges.contains(&Edge(y, x)) {
+					for z in 1..=self.node_count {
+						if pairwise_unequal(x, y, z) {
+							disjunctions.push(Disjunction(vec![Inclusion::new(x, y, z).negated()]));
+						}
+					}
+				}
+			}
+		}
+
 		disjunctions
 	}
 
