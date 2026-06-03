@@ -1,9 +1,7 @@
-use std::fs;
-
 fn main() {
 	let args: Vec<String> = std::env::args().collect();
 	let path = &args[1];
-	let input = fs::read_to_string(path).unwrap();
+	let input = std::fs::read_to_string(path).unwrap();
 	let input = input.trim();
 
 	let graph = Graph::from(input);
