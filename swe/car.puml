@@ -1,0 +1,35 @@
+@startuml
+'https://plantuml.com/state-diagram
+'!pragma layout smetana
+hide empty description
+
+[*] --> available
+
+available --> reserved : customer reserves car
+reserved --> borrowed : customer borrows car [customer is close to car]
+reserved --> available : 2 hours passed [no booking] / notify customer
+
+state borrowed {
+	[*] --> parked
+	parked --> in_use : customer uses car
+	in_use --> parked  : customer parks car
+	state "in use" as in_use
+	
+	parked --> available : customer ends rental [in company's region] / notify company
+	borrowed --> offline : connection lost
+	offline --> borrowed : connection re-established [< 15min passed]
+
+	state h as "H" <<history>>
+}
+
+state offline {
+	[*] --> disabled : 15min passed [no connection] / assess car
+	disabled --> removed : was assessed [repair is uneconomic]
+	removed --> [*]
+	disabled --> in_repair : was assessed [repair is economic]
+	in_repair --> available : repair is done
+
+	state "in repair" as in_repair
+}
+
+@enduml
