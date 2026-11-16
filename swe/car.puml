@@ -6,11 +6,19 @@ hide empty description
 [*] --> available
 
 available --> reserved : customer reserves car
-reserved --> borrowed : customer borrows car [customer is close to car]
-reserved --> available : 2 hours passed [no booking] / notify customer
+reserved --> available : 2 hours passed / notify customer
+
+state offline {
+	[*] --> disabled : 15min passed [no connection]
+	disabled --> [*] : is assessed [repair is uneconomic] / remove from fleet
+	disabled --> in_repair : is assessed [repair is economic]
+	in_repair --> available : repair is done
+
+	state "in repair" as in_repair
+}
 
 state borrowed {
-	[*] --> parked
+	reserved --> parked : customer borrows car [customer is close to car]
 	parked --> in_use : customer uses car
 	in_use --> parked  : customer parks car
 	state "in use" as in_use
@@ -22,14 +30,5 @@ state borrowed {
 	state h as "H" <<history>>
 }
 
-state offline {
-	[*] --> disabled : 15min passed [no connection] / assess car
-	disabled --> removed : was assessed [repair is uneconomic]
-	removed --> [*]
-	disabled --> in_repair : was assessed [repair is economic]
-	in_repair --> available : repair is done
-
-	state "in repair" as in_repair
-}
 
 @enduml
